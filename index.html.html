@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMES MARKETPLACE | MULTIPLATAFORMA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Roboto:wght@400;500;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --accent: #00ff88;
+            --accent-hover: #00cc6a;
+            --text-main: #ffffff;
+            --text-sec: #b3b3b3;
+            --badge-red: #ff3b3b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding-bottom: 60px;
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(18, 18, 18, 0.95);
+            padding: 15px 30px;
+            display: flex; flex-wrap: wrap;
+            justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--accent);
+            position: sticky; top: 0; z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem; font-weight: 700;
+            color: white; text-transform: uppercase;
+        }
+        .logo span { color: var(--accent); }
+
+        .search-bar {
+            flex-grow: 1; margin: 0 20px;
+            max-width: 500px; position: relative;
+        }
+        .search-input {
+            width: 100%; padding: 10px 15px;
+            border-radius: 5px; border: 1px solid #333;
+            background: #2a2a2a; color: white;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .controls { display: flex; gap: 15px; align-items: center; }
+
+        .wallet {
+            background: #2a2a2a; padding: 8px 15px; border-radius: 5px;
+            border: 1px solid #333; font-weight: bold;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .btn-topup {
+            background: var(--accent); border: none; color: black;
+            width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold;
+        }
+        
+        .cart-icon { font-size: 1.5rem; cursor: pointer; position: relative; }
+        .badge {
+            position: absolute; top: -8px; right: -8px;
+            background: var(--badge-red); color: white;
+            font-size: 0.75rem; padding: 2px 6px; border-radius: 50%;
+        }
+
+        /* FILTERS */
+        .filters {
+            padding: 20px; text-align: center;
+            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: #2a2a2a; color: #ccc; border: 1px solid #333;
+            padding: 8px 15px; border-radius: 20px; cursor: pointer;
+            transition: 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent); color: black; border-color: var(--accent);
+        }
+
+        /* CONTAINER & GRID */
+        .container {
+            max-width: 1400px; margin: 0 auto; padding: 0 20px;
+            display: flex; gap: 20px;
+        }
+
+        .grid {
+            flex: 4;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 8px; overflow: hidden;
+            border: 1px solid #333; transition: 0.2s;
+            position: relative; display: flex; flex-direction: column;
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--accent); }
+
+        .card-img-container {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+        }
+        
+        .card-img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .card:hover .card-img { transform: scale(1.1); }
+        
+        .discount-tag {
+            position: absolute; top: 10px; right: 10px;
+            background: var(--badge-red); color: white;
+            padding: 3px 8px; border-radius: 3px; font-weight: bold; font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5); z-index: 2;
+        }
+
+        .card-body { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; }
+        
+        /* PLATFORM TAGS STYLE */
+        .platforms {
+            display: flex; gap: 5px; margin-bottom: 8px;
+        }
+        .plat-badge {
+            font-size: 0.65rem;
+            background: #333;
+            color: #ccc;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+            border: 1px solid #444;
+        }
+
+        .game-title {
+            font-size: 0.95rem; font-weight: 700;
+            margin-bottom: 5px; line-height: 1.2;
+            height: 40px; overflow: hidden;
+            white-space: nowrap; text-overflow: ellipsis;
+        }
+        
+        .price-row { margin-top: auto; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .price-old { text-decoration: line-through; color: #666; font-size: 0.8rem; }
+        .price-new { color: var(--accent); font-weight: bold; font-size: 1.1rem; }
+
+        .btn-buy {
+            width: 100%; background: transparent;
+            border: 1px solid var(--accent); color: var(--accent);
+            padding: 8px; border-radius: 4px; font-weight: bold;
+            cursor: pointer; transition: 0.2s;
+        }
+        .btn-buy:hover { background: var(--accent); color: black; }
+
+        /* SIDEBAR */
+        .sidebar {
+            flex: 1; min-width: 300px;
+            background: #1a1a1a; border: 1px solid #333;
+            padding: 20px; border-radius: 8px;
+            height: fit-content; position: sticky; top: 90px;
+        }
+
+        .cart-items { max-height: 500px; overflow-y: auto; margin: 15px 0; }
+        .cart-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #252525; padding: 8px; margin-bottom: 5px; border-radius: 4px; font-size: 0.85rem;
+        }
+
+        .btn-checkout {
+            width: 100%; background: var(--accent); color: black;
+            padding: 12px; border: none; font-weight: bold;
+            border-radius: 4px; cursor: pointer; font-size: 1rem;
+        }
+        .btn-checkout:hover { background: var(--accent-hover); }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 200; justify-content: center; align-items: center;
+        }
+        .modal {
+            background: #1e1e1e; width: 90%; max-width: 600px;
+            padding: 30px; border-radius: 8px; border: 1px solid #444;
+            max-height: 90vh; overflow-y: auto;
+        }
+        .close-btn { float: right; cursor: pointer; font-size: 1.5rem; color: #888; }
+        
+        .copy-box {
+            background: #121212; padding: 12px; border: 1px solid #333;
+            margin-bottom: 10px; cursor: pointer; border-radius: 4px;
+        }
+        .copy-box:hover { border-color: var(--accent); }
+        .lbl { color: var(--accent); font-size: 0.75rem; font-weight: bold; }
+        .val { font-family: monospace; color: white; word-break: break-all; }
+
+        .btn-wa {
+            display: block; width: 100%; background: #25d366; color: white;
+            text-align: center; padding: 15px; text-decoration: none;
+            font-weight: bold; border-radius: 4px; margin-top: 20px;
+        }
+
+        @media(max-width: 900px) {
+            .container { flex-direction: column; }
+            .sidebar { order: -1; }
+            .search-bar { width: 100%; margin: 10px 0; }
+            .filters { justify-content: flex-start; overflow-x: auto; white-space: nowrap; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">GAME<span>STORE</span></div>
+        <div class="search-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="Buscar juego..." onkeyup="filterGames()">
+        </div>
+        <div class="controls">
+            <div class="wallet">
+                <span>$<span id="wallet">0.00</span></span>
+                <button class="btn-topup" onclick="openModal()">+</button>
+            </div>
+            <div class="cart-icon" onclick="scrollToCart()">
+                🛒 <span class="badge" id="count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="filters">
+        <button class="filter-btn active" onclick="filterCat('all')">Todos</button>
+        <button class="filter-btn" onclick="filterCat('Acción')">Acción</button>
+        <button class="filter-btn" onclick="filterCat('Aventura')">Aventura</button>
+        <button class="filter-btn" onclick="filterCat('Deportes')">Deportes</button>
+        <button class="filter-btn" onclick="filterCat('RPG')">RPG</button>
+        <button class="filter-btn" onclick="filterCat('Shooter')">Shooters</button>
+        <button class="filter-btn" onclick="filterCat('Terror')">Terror</button>
+        <button class="filter-btn" onclick="filterCat('Estrategia')">Estrategia</button>
+    </div>
+
+    <div class="container">
+        <div class="grid" id="grid"></div>
+
+        <div class="sidebar" id="sidebar">
+            <h3>CARRITO</h3>
+            <div class="cart-items" id="cart-items">
+                <p style="text-align:center; color:#666;">Vacío</p>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-weight:bold; color:var(--accent);">
+                <span>TOTAL:</span>
+                <span id="total">$0.00</span>
+            </div>
+            <button class="btn-checkout" onclick="pay()">COMPRAR</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 style="color:var(--accent); margin-bottom:20px;">MÉTODOS DE PAGO</h2>
+            
+            <p style="margin-bottom:10px; color:#aaa;">Haz clic para copiar:</p>
+
+            <div class="copy-box" onclick="copy('710969000152932282')">
+                <div class="lbl">BANCO NVIO (MÉXICO)</div>
+                <div class="val">710969000152932282 (Graciela)</div>
+            </div>
+
+            <div class="copy-box" onclick="copy('0xfc7c5f3ebc5e804ad020c37dc50f0e469b463913')">
+                <div class="lbl">USDT (BP20)</div>
+                <div class="val">0xfc7c5f3ebc5e804ad020c37dc50f0e469b463913</div>
+            </div>
+
+            <div class="copy-box" onclick="copy('TUT4ZqQYEv32oiUGC3pNmYBYEoUUGMm1eV')">
+                <div class="lbl">USDT (TRC20)</div>
+                <div class="val">TUT4ZqQYEv32oiUGC3pNmYBYEoUUGMm1eV</div>
+            </div>
+
+            <div class="copy-box" onclick="copy('1K6jsMAfJJMEQ6dPmJDV7CEZfDGHhsXznw')">
+                <div class="lbl">BITCOIN (BTC)</div>
+                <div class="val">1K6jsMAfJJMEQ6dPmJDV7CEZfDGHhsXznw</div>
+            </div>
+
+            <div class="copy-box" onclick="copy('0xfc7c5f3ebc5e804ad020c37dc50f0e469b463913')">
+                <div class="lbl">USDC (AVAXC)</div>
+                <div class="val">0xfc7c5f3ebc5e804ad020c37dc50f0e469b463913</div>
+            </div>
+
+            <a href="#" id="wa-link" target="_blank" class="btn-wa">ENVIAR COMPROBANTE</a>
+        </div>
+    </div>
+
+    <script>
+        // --- BASE DE DATOS DE 90 JUEGOS ---
+        const gamesDB = [
+            // LOS PRIMEROS 50
+            { id: 1, name: "GTA V Premium", cat: "Acción", old: 600, price: 150, img: "271590" },
+            { id: 2, name: "Minecraft", cat: "Aventura", old: 500, price: 120, img: "custom", url: "https://upload.wikimedia.org/wikipedia/en/5/51/Minecraft_cover.png" },
+            { id: 3, name: "EA SPORTS FC 24", cat: "Deportes", old: 1200, price: 250, img: "2195250" },
+            { id: 4, name: "Call of Duty: MW3", cat: "Shooter", old: 1400, price: 400, img: "2519060" },
+            { id: 5, name: "Elden Ring", cat: "RPG", old: 1000, price: 300, img: "1245620" },
+            { id: 6, name: "Red Dead Redemption 2", cat: "Aventura", old: 900, price: 200, img: "1174180" },
+            { id: 7, name: "Cyberpunk 2077", cat: "RPG", old: 800, price: 220, img: "1091500" },
+            { id: 8, name: "God of War Ragnarok", cat: "Acción", old: 1200, price: 350, img: "2322010" },
+            { id: 9, name: "Spider-Man Remastered", cat: "Acción", old: 1300, price: 380, img: "1817070" },
+            { id: 10, name: "Resident Evil 4", cat: "Terror", old: 900, price: 280, img: "2050650" },
+            { id: 11, name: "The Last of Us Part I", cat: "Aventura", old: 1000, price: 250, img: "1888930" },
+            { id: 12, name: "Hogwarts Legacy", cat: "Aventura", old: 1100, price: 300, img: "990080" },
+            { id: 13, name: "Mortal Kombat 1", cat: "Acción", old: 1200, price: 320, img: "1971870" },
+            { id: 14, name: "Assassin's Creed Mirage", cat: "Aventura", old: 900, price: 250, img: "2355430" },
+            { id: 15, name: "Baldur's Gate 3", cat: "RPG", old: 1000, price: 280, img: "1086940" },
+            { id: 16, name: "Starfield", cat: "RPG", old: 1100, price: 290, img: "1716740" },
+            { id: 17, name: "Diablo IV", cat: "RPG", old: 1200, price: 300, img: "2344520" },
+            { id: 18, name: "NBA 2K24", cat: "Deportes", old: 1000, price: 200, img: "2338770" },
+            { id: 19, name: "Forza Horizon 5", cat: "Deportes", old: 900, price: 180, img: "1551360" },
+            { id: 20, name: "Halo Infinite", cat: "Shooter", old: 800, price: 150, img: "1240440" },
+            { id: 21, name: "Dead Space", cat: "Terror", old: 900, price: 220, img: "1693980" },
+            { id: 22, name: "Street Fighter 6", cat: "Acción", old: 1000, price: 250, img: "1364780" },
+            { id: 23, name: "Final Fantasy XVI", cat: "RPG", old: 1200, price: 350, img: "2515020" },
+            { id: 24, name: "Silent Hill 2", cat: "Terror", old: 1100, price: 380, img: "2124490" },
+            { id: 25, name: "Rust", cat: "Aventura", old: 600, price: 150, img: "252490" },
+            { id: 26, name: "Ark: Survival Ascended", cat: "Aventura", old: 800, price: 200, img: "2399830" },
+            { id: 27, name: "Rainbow Six Siege", cat: "Shooter", old: 400, price: 100, img: "359550" },
+            { id: 28, name: "Project Zomboid", cat: "Aventura", old: 300, price: 80, img: "108600" },
+            { id: 29, name: "Terraria", cat: "Aventura", old: 200, price: 50, img: "105600" },
+            { id: 30, name: "Stardew Valley", cat: "RPG", old: 200, price: 50, img: "413150" },
+            { id: 31, name: "Left 4 Dead 2", cat: "Shooter", old: 150, price: 40, img: "550" },
+            { id: 32, name: "Phasmophobia", cat: "Terror", old: 300, price: 90, img: "739630" },
+            { id: 33, name: "Lethal Company", cat: "Terror", old: 200, price: 60, img: "1966720" },
+            { id: 34, name: "Among Us", cat: "Acción", old: 100, price: 20, img: "945360" },
+            { id: 35, name: "Cuphead", cat: "Acción", old: 300, price: 90, img: "268910" },
+            { id: 36, name: "Hollow Knight", cat: "Aventura", old: 300, price: 80, img: "367520" },
+            { id: 37, name: "Sekiro", cat: "Acción", old: 800, price: 200, img: "814380" },
+            { id: 38, name: "Dark Souls 3", cat: "RPG", old: 800, price: 180, img: "374320" },
+            { id: 39, name: "The Witcher 3", cat: "RPG", old: 600, price: 120, img: "292030" },
+            { id: 40, name: "Skyrim", cat: "RPG", old: 500, price: 100, img: "489830" },
+            { id: 41, name: "Fallout 4", cat: "RPG", old: 400, price: 80, img: "377160" },
+            { id: 42, name: "Doom Eternal", cat: "Shooter", old: 600, price: 150, img: "782330" },
+            { id: 43, name: "Overwatch 2 Coins", cat: "Shooter", old: 500, price: 150, img: "2357570" },
+            { id: 44, name: "Fortnite V-Bucks", cat: "Shooter", old: 800, price: 400, img: "custom", url: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Fortnite_F_lettermark_logo.png" },
+            { id: 45, name: "Valorant Points", cat: "Shooter", old: 500, price: 250, img: "custom", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink_color_version.svg/1200px-Valorant_logo_-_pink_color_version.svg.png" },
+            { id: 46, name: "Roblox Robux", cat: "Aventura", old: 400, price: 150, img: "custom", url: "https://upload.wikimedia.org/wikipedia/commons/3/36/Roblox_Logo_2022.jpg" },
+            { id: 47, name: "Need For Speed Unbound", cat: "Deportes", old: 900, price: 200, img: "1846380" },
+            { id: 48, name: "Tekken 8", cat: "Acción", old: 1200, price: 350, img: "1778820" },
+            { id: 49, name: "Palworld", cat: "Aventura", old: 500, price: 150, img: "1623730" },
+            { id: 50, name: "Helldivers 2", cat: "Shooter", old: 700, price: 250, img: "553850" },
+
+            // LOS 40 NUEVOS
+            { id: 51, name: "Monster Hunter: World", cat: "RPG", old: 800, price: 200, img: "582010" },
+            { id: 52, name: "Devil May Cry 5", cat: "Acción", old: 700, price: 180, img: "601150" },
+            { id: 53, name: "Resident Evil Village", cat: "Terror", old: 800, price: 250, img: "1196590" },
+            { id: 54, name: "Dead by Daylight", cat: "Terror", old: 400, price: 100, img: "381210" },
+            { id: 55, name: "Cities: Skylines II", cat: "Estrategia", old: 900, price: 300, img: "949230" },
+            { id: 56, name: "Civilization VI", cat: "Estrategia", old: 600, price: 150, img: "289070" },
+            { id: 57, name: "Age of Empires IV", cat: "Estrategia", old: 800, price: 200, img: "1466860" },
+            { id: 58, name: "Hades", cat: "Acción", old: 400, price: 120, img: "1145360" },
+            { id: 59, name: "Cult of the Lamb", cat: "Acción", old: 400, price: 110, img: "1313140" },
+            { id: 60, name: "Sons of the Forest", cat: "Terror", old: 600, price: 180, img: "1326470" },
+            { id: 61, name: "Subnautica", cat: "Aventura", old: 500, price: 150, img: "264710" },
+            { id: 62, name: "Valheim", cat: "Aventura", old: 400, price: 120, img: "892970" },
+            { id: 63, name: "No Man's Sky", cat: "Aventura", old: 800, price: 250, img: "275850" },
+            { id: 64, name: "Sea of Thieves", cat: "Aventura", old: 700, price: 200, img: "1172620" },
+            { id: 65, name: "Forza Motorsport", cat: "Deportes", old: 1000, price: 350, img: "2440510" },
+            { id: 66, name: "F1 23", cat: "Deportes", old: 900, price: 250, img: "2108880" },
+            { id: 67, name: "Madden NFL 24", cat: "Deportes", old: 1000, price: 280, img: "2140330" },
+            { id: 68, name: "WWE 2K23", cat: "Deportes", old: 900, price: 250, img: "1942660" },
+            { id: 69, name: "Persona 5 Royal", cat: "RPG", old: 1000, price: 300, img: "1687950" },
+            { id: 70, name: "Star Wars Jedi: Survivor", cat: "Aventura", old: 1100, price: 350, img: "1774580" },
+            { id: 71, name: "Lies of P", cat: "RPG", old: 900, price: 300, img: "1627720" },
+            { id: 72, name: "Armored Core VI", cat: "Acción", old: 1000, price: 320, img: "1888160" },
+            { id: 73, name: "Payday 3", cat: "Shooter", old: 800, price: 200, img: "1272080" },
+            { id: 74, name: "Back 4 Blood", cat: "Shooter", old: 600, price: 150, img: "924970" },
+            { id: 75, name: "It Takes Two", cat: "Aventura", old: 700, price: 200, img: "1426210" },
+            { id: 76, name: "Stray", cat: "Aventura", old: 500, price: 150, img: "1332010" },
+            { id: 77, name: "Half-Life: Alyx", cat: "Shooter", old: 900, price: 300, img: "546560" },
+            { id: 78, name: "Assetto Corsa", cat: "Deportes", old: 300, price: 80, img: "244210" },
+            { id: 79, name: "Euro Truck Simulator 2", cat: "Estrategia", old: 300, price: 80, img: "227300" },
+            { id: 80, name: "RimWorld", cat: "Estrategia", old: 500, price: 180, img: "294100" },
+            { id: 81, name: "Factorio", cat: "Estrategia", old: 600, price: 200, img: "427520" },
+            { id: 82, name: "DayZ", cat: "Terror", old: 700, price: 250, img: "221100" },
+            { id: 83, name: "7 Days to Die", cat: "Terror", old: 400, price: 120, img: "251570" },
+            { id: 84, name: "Don't Starve Together", cat: "Aventura", old: 300, price: 80, img: "322330" },
+            { id: 85, name: "Castle Crashers", cat: "Acción", old: 250, price: 60, img: "204360" },
+            { id: 86, name: "Gang Beasts", cat: "Acción", old: 300, price: 90, img: "285900" },
+            { id: 87, name: "Human Fall Flat", cat: "Aventura", old: 300, price: 90, img: "477160" },
+            { id: 88, name: "Raft", cat: "Aventura", old: 400, price: 120, img: "648800" },
+            { id: 89, name: "The Forest", cat: "Terror", old: 300, price: 90, img: "242760" },
+            { id: 90, name: "Bioshock Infinite", cat: "Shooter", old: 500, price: 120, img: "8870" },
+            { id: 91, name: "Satisfactory", cat: "Estrategia", old: 400, price: 180, img: "526870" }
+        ];
+
+        let cart = [];
+        let wallet = 0.00;
+        const PHONE = "12296558023";
+        let currentFilter = 'all';
+
+        function getImgUrl(game) {
+            if (game.img === "custom") return game.url;
+            return `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${game.img}/library_600x900.jpg`;
+        }
+
+        function renderGames(list) {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = list.map(g => `
+                <div class="card">
+                    <div class="card-img-container">
+                        <img src="${getImgUrl(g)}" alt="${g.name}" class="card-img" onerror="this.src='https://via.placeholder.com/200x300?text=${encodeURIComponent(g.name)}'">
+                        <div class="discount-tag">-${Math.round((1 - g.price/g.old)*100)}%</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="platforms">
+                            <span class="plat-badge">PC</span>
+                            <span class="plat-badge">XBOX</span>
+                            <span class="plat-badge">PSN</span>
+                        </div>
+                        <div class="game-title">${g.name}</div>
+                        <div style="color:#666; font-size:0.8rem; margin-bottom:5px;">${g.cat}</div>
+                        <div class="price-row">
+                            <span class="price-old">$${g.old}</span>
+                            <span class="price-new">$${g.price}</span>
+                        </div>
+                        <button class="btn-buy" onclick="add(${g.id})">AGREGAR</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        renderGames(gamesDB);
+        updateLink();
+
+        function filterCat(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if(cat === 'all') {
+                renderGames(gamesDB);
+            } else {
+                const filtered = gamesDB.filter(g => g.cat === cat || (cat === 'Otros' && !['Acción','Aventura','Deportes','RPG','Shooter','Terror','Estrategia'].includes(g.cat)));
+                renderGames(filtered);
+            }
+        }
+
+        function filterGames() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = gamesDB.filter(g => g.name.toLowerCase().includes(query));
+            renderGames(filtered);
+        }
+
+        function add(id) {
+            const game = gamesDB.find(g => g.id === id);
+            cart.push(game);
+            renderCart();
+        }
+
+        function remove(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function renderCart() {
+            const box = document.getElementById('cart-items');
+            const totalEl = document.getElementById('total');
+            const countEl = document.getElementById('count');
+            
+            countEl.innerText = cart.length;
+            
+            let total = 0;
+            if (cart.length === 0) {
+                box.innerHTML = '<p style="text-align:center; color:#666; font-size:0.9rem;">Vacío</p>';
+                totalEl.innerText = "$0.00";
+                return;
+            }
+
+            box.innerHTML = cart.map((item, idx) => {
+                total += item.price;
+                return `
+                <div class="cart-item">
+                    <div style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis; max-width:180px;">
+                        <strong style="color:white;">${item.name}</strong>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="color:var(--accent);">$${item.price}</span>
+                        <span onclick="remove(${idx})" style="cursor:pointer; color:#ff3b3b; font-weight:bold;">&times;</span>
+                    </div>
+                </div>`;
+            }).join('');
+
+            totalEl.innerText = `$${total.toFixed(2)}`;
+        }
+
+        function pay() {
+            const total = cart.reduce((acc, item) => acc + item.price, 0);
+            if(total === 0) return alert("Selecciona juegos.");
+
+            if(wallet >= total) {
+                wallet -= total;
+                document.getElementById('wallet').innerText = wallet.toFixed(2);
+                
+                let msg = "Hola, nueva compra de JUEGOS (90 TITULOS):\n";
+                cart.forEach(i => msg += `- ${i.name} ($${i.price})\n`);
+                msg += `Total: $${total} MXN`;
+                
+                window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
+                cart = []; renderCart();
+            } else {
+                alert("Saldo insuficiente.");
+                openModal();
+            }
+        }
+
+        function openModal() { document.getElementById('modal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+        
+        function copy(txt) {
+            navigator.clipboard.writeText(txt).then(() => alert("Copiado al portapapeles."));
+        }
+
+        function updateLink() {
+            const msg = "Hola, solicito recarga de saldo. Adjunto comprobante.";
+            document.getElementById('wa-link').href = `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
+        }
+
+        function scrollToCart() {
+             document.getElementById('sidebar').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
