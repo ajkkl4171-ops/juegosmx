@@ -76,7 +76,7 @@
 
         .user-status {
             font-size: 0.85rem; color: var(--accent);
-            display: none; /* Se muestra al iniciar sesión */
+            display: none;
             font-weight: bold;
         }
 
@@ -138,14 +138,6 @@
 
         .card-body { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; }
         
-        /* PLATFORM TAGS STYLE */
-        .platforms { display: flex; gap: 5px; margin-bottom: 8px; }
-        .plat-badge {
-            font-size: 0.65rem; background: #333; color: #ccc;
-            padding: 2px 6px; border-radius: 3px; font-weight: bold;
-            border: 1px solid #444;
-        }
-
         .game-title {
             font-size: 0.95rem; font-weight: 700;
             margin-bottom: 5px; line-height: 1.2;
@@ -156,6 +148,21 @@
         .price-row { margin-top: auto; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .price-old { text-decoration: line-through; color: #666; font-size: 0.8rem; }
         .price-new { color: var(--accent); font-weight: bold; font-size: 1.1rem; }
+
+        /* ESTILO SELECTOR PLATAFORMA */
+        .plat-select {
+            width: 100%;
+            padding: 6px;
+            margin-bottom: 10px;
+            background: #121212;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 4px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .plat-select:focus { border-color: var(--accent); }
 
         .btn-buy {
             width: 100%; background: transparent;
@@ -229,10 +236,7 @@
         }
 
         @media(max-width: 480px) {
-            .grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .card-img-container { height: 180px; }
             .logo { font-size: 1.5rem; }
             .wallet { padding: 6px 10px; font-size: 0.9rem; }
@@ -449,17 +453,21 @@
                         <div class="discount-tag">-${Math.round((1 - g.price/g.old)*100)}%</div>
                     </div>
                     <div class="card-body">
-                        <div class="platforms">
-                            <span class="plat-badge">PC</span>
-                            <span class="plat-badge">XBOX</span>
-                            <span class="plat-badge">PSN</span>
-                        </div>
                         <div class="game-title">${g.name}</div>
                         <div style="color:#666; font-size:0.8rem; margin-bottom:5px;">${g.cat}</div>
+                        
                         <div class="price-row">
                             <span class="price-old">$${g.old}</span>
                             <span class="price-new">$${g.price}</span>
                         </div>
+                        
+                        <select class="plat-select" id="plat-${g.id}">
+                            <option value="Steam">Steam</option>
+                            <option value="Epic Games">Epic Games</option>
+                            <option value="Xbox">Xbox</option>
+                            <option value="PSN">PSN</option>
+                        </select>
+
                         <button class="btn-buy" onclick="add(${g.id})">AGREGAR</button>
                     </div>
                 </div>
@@ -489,8 +497,14 @@
         }
 
         function add(id) {
-            const game = gamesDB.find(g => g.id === id);
-            cart.push(game);
+            // Buscamos el juego y le agregamos la plataforma seleccionada
+            const gameData = gamesDB.find(g => g.id === id);
+            const selectedPlat = document.getElementById(`plat-${id}`).value;
+            
+            // Hacemos una copia del objeto del juego para no alterar la base de datos
+            const gameToAdd = { ...gameData, platform: selectedPlat };
+            
+            cart.push(gameToAdd);
             renderCart();
         }
 
@@ -518,7 +532,8 @@
                 return `
                 <div class="cart-item">
                     <div style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis; max-width:180px;">
-                        <strong style="color:white;">${item.name}</strong>
+                        <strong style="color:white; font-size: 0.9rem;">${item.name}</strong><br>
+                        <span style="color:#00ff88; font-size: 0.75rem;">[${item.platform}]</span>
                     </div>
                     <div style="display:flex; align-items:center; gap:10px;">
                         <span style="color:var(--accent);">$${item.price}</span>
@@ -564,7 +579,8 @@
                 document.getElementById('wallet').innerText = wallet.toFixed(2);
                 
                 let msg = "Hola, nueva compra de JUEGOS:\n";
-                cart.forEach(i => msg += `- ${i.name} ($${i.price})\n`);
+                // AHORA EL MENSAJE INCLUYE LA PLATAFORMA
+                cart.forEach(i => msg += `- ${i.name} [${i.platform}] ($${i.price})\n`);
                 msg += `Total: $${total} MXN`;
                 
                 window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
