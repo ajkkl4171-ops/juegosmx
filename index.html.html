@@ -34,6 +34,7 @@
             border-bottom: 2px solid var(--accent);
             position: sticky; top: 0; z-index: 100;
             backdrop-filter: blur(10px);
+            gap: 15px;
         }
 
         .logo {
@@ -71,6 +72,12 @@
             position: absolute; top: -8px; right: -8px;
             background: var(--badge-red); color: white;
             font-size: 0.75rem; padding: 2px 6px; border-radius: 50%;
+        }
+
+        .user-status {
+            font-size: 0.85rem; color: var(--accent);
+            display: none; /* Se muestra al iniciar sesión */
+            font-weight: bold;
         }
 
         /* FILTERS */
@@ -132,16 +139,10 @@
         .card-body { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; }
         
         /* PLATFORM TAGS STYLE */
-        .platforms {
-            display: flex; gap: 5px; margin-bottom: 8px;
-        }
+        .platforms { display: flex; gap: 5px; margin-bottom: 8px; }
         .plat-badge {
-            font-size: 0.65rem;
-            background: #333;
-            color: #ccc;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-weight: bold;
+            font-size: 0.65rem; background: #333; color: #ccc;
+            padding: 2px 6px; border-radius: 3px; font-weight: bold;
             border: 1px solid #444;
         }
 
@@ -149,7 +150,7 @@
             font-size: 0.95rem; font-weight: 700;
             margin-bottom: 5px; line-height: 1.2;
             height: 40px; overflow: hidden;
-            white-space: nowrap; text-overflow: ellipsis;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
         }
         
         .price-row { margin-top: auto; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -185,7 +186,7 @@
         }
         .btn-checkout:hover { background: var(--accent-hover); }
 
-        /* MODAL */
+        /* MODALS */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 200; justify-content: center; align-items: center;
@@ -193,9 +194,11 @@
         .modal {
             background: #1e1e1e; width: 90%; max-width: 600px;
             padding: 30px; border-radius: 8px; border: 1px solid #444;
-            max-height: 90vh; overflow-y: auto;
+            max-height: 90vh; overflow-y: auto; position: relative;
         }
-        .close-btn { float: right; cursor: pointer; font-size: 1.5rem; color: #888; }
+        .modal.auth-modal { max-width: 400px; }
+        .close-btn { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.5rem; color: #888; }
+        .close-btn:hover { color: white; }
         
         .copy-box {
             background: #121212; padding: 12px; border: 1px solid #333;
@@ -211,11 +214,29 @@
             font-weight: bold; border-radius: 4px; margin-top: 20px;
         }
 
+        .auth-input {
+            width: 100%; padding: 12px; border-radius: 5px; border: 1px solid #333;
+            background: #2a2a2a; color: white; margin-bottom: 15px; font-family: 'Roboto', sans-serif;
+        }
+
+        /* MEDIA QUERIES PARA CELULARES */
         @media(max-width: 900px) {
             .container { flex-direction: column; }
-            .sidebar { order: -1; }
-            .search-bar { width: 100%; margin: 10px 0; }
-            .filters { justify-content: flex-start; overflow-x: auto; white-space: nowrap; }
+            .sidebar { order: -1; position: static; min-width: 100%; }
+            .search-bar { margin: 10px 0; max-width: 100%; order: 3; width: 100%; }
+            .controls { flex-grow: 1; justify-content: flex-end; }
+            .filters { justify-content: flex-start; overflow-x: auto; white-space: nowrap; padding: 15px; }
+        }
+
+        @media(max-width: 480px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .card-img-container { height: 180px; }
+            .logo { font-size: 1.5rem; }
+            .wallet { padding: 6px 10px; font-size: 0.9rem; }
+            header { padding: 10px 15px; }
         }
     </style>
 </head>
@@ -223,10 +244,8 @@
 
     <header>
         <div class="logo">GAME<span>STORE</span></div>
-        <div class="search-bar">
-            <input type="text" class="search-input" id="searchInput" placeholder="Buscar juego..." onkeyup="filterGames()">
-        </div>
         <div class="controls">
+            <span id="user-display" class="user-status">Registrado ✓</span>
             <div class="wallet">
                 <span>$<span id="wallet">0.00</span></span>
                 <button class="btn-topup" onclick="openModal()">+</button>
@@ -234,6 +253,9 @@
             <div class="cart-icon" onclick="scrollToCart()">
                 🛒 <span class="badge" id="count">0</span>
             </div>
+        </div>
+        <div class="search-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="Buscar juego..." onkeyup="filterGames()">
         </div>
     </header>
 
@@ -267,11 +289,11 @@
     <div class="modal-overlay" id="modal">
         <div class="modal">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2 style="color:var(--accent); margin-bottom:20px;">MÉTODOS DE PAGO</h2>
+            <h2 style="color:var(--accent); margin-bottom:20px; margin-top:10px;">MÉTODOS DE PAGO</h2>
             
             <p style="margin-bottom:10px; color:#aaa;">Haz clic para copiar:</p>
 
-            <div class="copy-box" onclick="copy('710969000152932282')">
+            <div class="copy-box" onclick="copy('661180007514078990')">
                 <div class="lbl">BANCO KLAR (MÉXICO)</div>
                 <div class="val">661180007514078990 (EVANGELINA ESTRELLA)</div>
             </div>
@@ -291,19 +313,29 @@
                 <div class="val">1K6jsMAfJJMEQ6dPmJDV7CEZfDGHhsXznw</div>
             </div>
 
-            <div class="copy-box" onclick="copy('0xfc7c5f3ebc5e804ad020c37dc50f0e469b463913')">
-                <div class="lbl">USDC (AVAXC)</div>
-                <div class="val">0xfc7c5f3ebc5e804ad020c37dc50f0e469b463913</div>
-            </div>
-
             <a href="#" id="wa-link" target="_blank" class="btn-wa">ENVIAR COMPROBANTE</a>
         </div>
     </div>
 
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal auth-modal">
+            <span class="close-btn" onclick="closeAuthModal()">&times;</span>
+            <h2 style="color:var(--accent); margin-bottom:20px; text-align:center; margin-top:10px;">INICIAR SESIÓN</h2>
+            <p style="text-align:center; color:#b3b3b3; margin-bottom: 20px; font-size: 0.9rem;">
+                Crea una cuenta o inicia sesión para continuar con tu compra.
+            </p>
+            
+            <input type="email" id="auth-email" placeholder="Correo electrónico" class="auth-input">
+            <input type="password" id="auth-pass" placeholder="Contraseña" class="auth-input">
+            
+            <button class="btn-checkout" onclick="loginUser()">ENTRAR / REGISTRARSE</button>
+        </div>
+    </div>
+
     <script>
-        // --- BASE DE DATOS DE 90 JUEGOS ---
+        // --- BASE DE DATOS DE JUEGOS ---
         const gamesDB = [
-            // LOS PRIMEROS 50
+            { id: 92, name: "ARC Raiders", cat: "Shooter", old: 500, price: 200, img: "custom", url: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1808500/header.jpg" },
             { id: 1, name: "GTA V Premium", cat: "Acción", old: 600, price: 150, img: "271590" },
             { id: 2, name: "Minecraft", cat: "Aventura", old: 500, price: 120, img: "custom", url: "https://upload.wikimedia.org/wikipedia/en/5/51/Minecraft_cover.png" },
             { id: 3, name: "EA SPORTS FC 24", cat: "Deportes", old: 1200, price: 250, img: "2195250" },
@@ -354,8 +386,6 @@
             { id: 48, name: "Tekken 8", cat: "Acción", old: 1200, price: 350, img: "1778820" },
             { id: 49, name: "Palworld", cat: "Aventura", old: 500, price: 150, img: "1623730" },
             { id: 50, name: "Helldivers 2", cat: "Shooter", old: 700, price: 250, img: "553850" },
-
-            // LOS 40 NUEVOS
             { id: 51, name: "Monster Hunter: World", cat: "RPG", old: 800, price: 200, img: "582010" },
             { id: 52, name: "Devil May Cry 5", cat: "Acción", old: 700, price: 180, img: "601150" },
             { id: 53, name: "Resident Evil Village", cat: "Terror", old: 800, price: 250, img: "1196590" },
@@ -401,6 +431,7 @@
 
         let cart = [];
         let wallet = 0.00;
+        let isLoggedIn = false;
         const PHONE = "12296558023";
         let currentFilter = 'all';
 
@@ -491,7 +522,7 @@
                     </div>
                     <div style="display:flex; align-items:center; gap:10px;">
                         <span style="color:var(--accent);">$${item.price}</span>
-                        <span onclick="remove(${idx})" style="cursor:pointer; color:#ff3b3b; font-weight:bold;">&times;</span>
+                        <span onclick="remove(${idx})" style="cursor:pointer; color:#ff3b3b; font-weight:bold; font-size: 1.2rem;">&times;</span>
                     </div>
                 </div>`;
             }).join('');
@@ -499,22 +530,47 @@
             totalEl.innerText = `$${total.toFixed(2)}`;
         }
 
+        // --- LÓGICA DE LOGIN ---
+        function openAuthModal() { document.getElementById('auth-modal').style.display = 'flex'; }
+        function closeAuthModal() { document.getElementById('auth-modal').style.display = 'none'; }
+        
+        function loginUser() {
+            const email = document.getElementById('auth-email').value;
+            const pass = document.getElementById('auth-pass').value;
+            
+            if(email && pass) {
+                isLoggedIn = true;
+                closeAuthModal();
+                document.getElementById('user-display').style.display = 'block';
+                alert("¡Bienvenido! Sesión iniciada correctamente.");
+                pay(); // Reintenta el pago automáticamente
+            } else {
+                alert("Por favor, ingresa un correo y contraseña válidos.");
+            }
+        }
+
+        // --- LÓGICA DE COMPRA ---
         function pay() {
             const total = cart.reduce((acc, item) => acc + item.price, 0);
             if(total === 0) return alert("Selecciona juegos.");
+
+            if(!isLoggedIn) {
+                openAuthModal();
+                return;
+            }
 
             if(wallet >= total) {
                 wallet -= total;
                 document.getElementById('wallet').innerText = wallet.toFixed(2);
                 
-                let msg = "Hola, nueva compra de JUEGOS (90 TITULOS):\n";
+                let msg = "Hola, nueva compra de JUEGOS:\n";
                 cart.forEach(i => msg += `- ${i.name} ($${i.price})\n`);
                 msg += `Total: $${total} MXN`;
                 
                 window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
                 cart = []; renderCart();
             } else {
-                alert("Saldo insuficiente.");
+                alert("Saldo insuficiente. Por favor, recarga tu billetera.");
                 openModal();
             }
         }
@@ -536,5 +592,4 @@
         }
     </script>
 </body>
-
 </html>
