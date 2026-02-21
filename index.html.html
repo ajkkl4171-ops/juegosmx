@@ -119,7 +119,8 @@
             height: 250px;
             overflow: hidden;
             position: relative;
-            background: #000;
+            background: #121212;
+            display: flex; align-items: center; justify-content: center;
         }
         
         .card-img {
@@ -219,11 +220,20 @@
             display: block; width: 100%; background: #25d366; color: white;
             text-align: center; padding: 15px; text-decoration: none;
             font-weight: bold; border-radius: 4px; margin-top: 20px;
+            font-size: 1.1rem;
         }
 
         .auth-input {
             width: 100%; padding: 12px; border-radius: 5px; border: 1px solid #333;
             background: #2a2a2a; color: white; margin-bottom: 15px; font-family: 'Roboto', sans-serif;
+        }
+
+        .instructions {
+            background: #2a2a2a;
+            padding: 15px;
+            border-left: 4px solid var(--accent);
+            margin-bottom: 20px;
+            border-radius: 4px;
         }
 
         /* MEDIA QUERIES PARA CELULARES */
@@ -293,9 +303,18 @@
     <div class="modal-overlay" id="modal">
         <div class="modal">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2 style="color:var(--accent); margin-bottom:20px; margin-top:10px;">MÉTODOS DE PAGO</h2>
+            <h2 style="color:var(--accent); margin-bottom:10px; margin-top:5px;">RECARGAR SALDO</h2>
             
-            <p style="margin-bottom:10px; color:#aaa;">Haz clic para copiar:</p>
+            <div class="instructions">
+                <p style="color:white; font-size: 0.95rem; line-height: 1.5;">
+                    <strong>INSTRUCCIONES:</strong><br>
+                    1. Realiza el pago a una de las cuentas mostradas abajo.<br>
+                    2. <strong>Toma una captura de pantalla (capture)</strong> de tu comprobante de pago.<br>
+                    3. Haz clic en "ENVIAR COMPROBANTE" y envíanos el capture por WhatsApp junto con el correo de tu cuenta.
+                </p>
+            </div>
+
+            <p style="margin-bottom:10px; color:#aaa; font-size: 0.85rem;">Haz clic en la cuenta para copiarla:</p>
 
             <div class="copy-box" onclick="copy('661180007514078990')">
                 <div class="lbl">BANCO KLAR (MÉXICO)</div>
@@ -317,7 +336,7 @@
                 <div class="val">1K6jsMAfJJMEQ6dPmJDV7CEZfDGHhsXznw</div>
             </div>
 
-            <a href="#" id="wa-link" target="_blank" class="btn-wa">ENVIAR COMPROBANTE</a>
+            <a href="#" id="wa-link" target="_blank" class="btn-wa">ENVIAR COMPROBANTE A WHATSAPP</a>
         </div>
     </div>
 
@@ -337,11 +356,11 @@
     </div>
 
     <script>
-        // --- BASE DE DATOS DE JUEGOS ---
+        // --- BASE DE DATOS MASIVA DE JUEGOS ---
         const gamesDB = [
-            { id: 92, name: "ARC Raiders", cat: "Shooter", old: 500, price: 200, img: "custom", url: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1808500/header.jpg" },
+            { id: 92, name: "ARC Raiders", cat: "Shooter", old: 500, price: 200, img: "1808500" }, 
             { id: 1, name: "GTA V Premium", cat: "Acción", old: 600, price: 150, img: "271590" },
-            { id: 2, name: "Minecraft", cat: "Aventura", old: 500, price: 120, img: "custom", url: "https://upload.wikimedia.org/wikipedia/en/5/51/Minecraft_cover.png" },
+            { id: 2, name: "Minecraft: Java & Bedrock Edition", cat: "Aventura", old: 500, price: 120, img: "custom", url: "https://store-images.s-microsoft.com/image/apps.60323.13774133606666879.7b8d4ebd-1dc2-4e00-bcfa-a3ad3f39226d.7abce1db-2915-4ba1-b40b-74b8fb102b48" }, 
             { id: 3, name: "EA SPORTS FC 24", cat: "Deportes", old: 1200, price: 250, img: "2195250" },
             { id: 4, name: "Call of Duty: MW3", cat: "Shooter", old: 1400, price: 400, img: "2519060" },
             { id: 5, name: "Elden Ring", cat: "RPG", old: 1000, price: 300, img: "1245620" },
@@ -383,9 +402,9 @@
             { id: 41, name: "Fallout 4", cat: "RPG", old: 400, price: 80, img: "377160" },
             { id: 42, name: "Doom Eternal", cat: "Shooter", old: 600, price: 150, img: "782330" },
             { id: 43, name: "Overwatch 2 Coins", cat: "Shooter", old: 500, price: 150, img: "2357570" },
-            { id: 44, name: "Fortnite V-Bucks", cat: "Shooter", old: 800, price: 400, img: "custom", url: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Fortnite_F_lettermark_logo.png" },
-            { id: 45, name: "Valorant Points", cat: "Shooter", old: 500, price: 250, img: "custom", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink_color_version.svg/1200px-Valorant_logo_-_pink_color_version.svg.png" },
-            { id: 46, name: "Roblox Robux", cat: "Aventura", old: 400, price: 150, img: "custom", url: "https://upload.wikimedia.org/wikipedia/commons/3/36/Roblox_Logo_2022.jpg" },
+            { id: 44, name: "Fortnite V-Bucks", cat: "Shooter", old: 800, price: 400, img: "custom", url: "https://cdn1.epicgames.com/offer/fn/Blade_1200x1600_1200x1600-4786d7cc44c208479e001851e338c360" }, 
+            { id: 45, name: "Valorant Points", cat: "Shooter", old: 500, price: 250, img: "custom", url: "https://cdn1.epicgames.com/offer/cbd5b3d310a54b12bf3fe8c41994174f/EGS_VALORANT_RiotGames_S2_1200x1600-98f98a3f895c80ed2573215682894548" }, 
+            { id: 46, name: "Roblox Robux", cat: "Aventura", old: 400, price: 150, img: "custom", url: "https://store-images.s-microsoft.com/image/apps.44391.9007199266244670.367c050a-f0ed-4841-8eb1-71fb3d88b495.c20058ec-43e5-4f40-a359-ba28e8d89069" }, 
             { id: 47, name: "Need For Speed Unbound", cat: "Deportes", old: 900, price: 200, img: "1846380" },
             { id: 48, name: "Tekken 8", cat: "Acción", old: 1200, price: 350, img: "1778820" },
             { id: 49, name: "Palworld", cat: "Aventura", old: 500, price: 150, img: "1623730" },
@@ -430,12 +449,253 @@
             { id: 88, name: "Raft", cat: "Aventura", old: 400, price: 120, img: "648800" },
             { id: 89, name: "The Forest", cat: "Terror", old: 300, price: 90, img: "242760" },
             { id: 90, name: "Bioshock Infinite", cat: "Shooter", old: 500, price: 120, img: "8870" },
-            { id: 91, name: "Satisfactory", cat: "Estrategia", old: 400, price: 180, img: "526870" }
+            { id: 91, name: "Satisfactory", cat: "Estrategia", old: 400, price: 180, img: "526870" },
+            { id: 93, name: "Ghost of Tsushima", cat: "Aventura", old: 1000, price: 250, img: "2215430" },
+            { id: 94, name: "Returnal", cat: "Shooter", old: 900, price: 220, img: "1649240" },
+            { id: 95, name: "Ratchet & Clank: Rift Apart", cat: "Aventura", old: 1000, price: 250, img: "1895880" },
+            { id: 96, name: "Horizon Zero Dawn", cat: "RPG", old: 600, price: 150, img: "1151640" },
+            { id: 97, name: "Horizon Forbidden West", cat: "RPG", old: 1200, price: 350, img: "2420110" },
+            { id: 98, name: "Days Gone", cat: "Aventura", old: 800, price: 180, img: "1259420" },
+            { id: 99, name: "Detroit: Become Human", cat: "Aventura", old: 600, price: 150, img: "1222140" },
+            { id: 100, name: "Death Stranding", cat: "Aventura", old: 800, price: 180, img: "1850570" },
+            { id: 101, name: "Control", cat: "Acción", old: 600, price: 120, img: "870780" },
+            { id: 102, name: "Alan Wake 2", cat: "Terror", old: 1000, price: 280, img: "custom", url: "https://cdn1.epicgames.com/offer/5a2ea5980ac147c195775039195a3081/EGS_AlanWake2_RemedyEntertainment_S2_1200x1600-2f3478d1ad657731d7e2a9d86016e118" }, 
+            { id: 103, name: "Resident Evil 2 Remake", cat: "Terror", old: 600, price: 150, img: "883710" },
+            { id: 104, name: "Resident Evil 3 Remake", cat: "Terror", old: 600, price: 150, img: "952060" },
+            { id: 105, name: "Outlast", cat: "Terror", old: 300, price: 80, img: "238320" },
+            { id: 106, name: "Outlast 2", cat: "Terror", old: 400, price: 100, img: "414700" },
+            { id: 107, name: "The Outlast Trials", cat: "Terror", old: 600, price: 180, img: "1304930" },
+            { id: 108, name: "Dying Light", cat: "Acción", old: 400, price: 100, img: "239140" },
+            { id: 109, name: "Dying Light 2", cat: "Acción", old: 800, price: 220, img: "534380" },
+            { id: 110, name: "Metro Exodus", cat: "Shooter", old: 500, price: 120, img: "412020" },
+            { id: 111, name: "Fallout New Vegas", cat: "RPG", old: 200, price: 50, img: "22380" },
+            { id: 112, name: "Borderlands 3", cat: "Shooter", old: 700, price: 180, img: "397540" },
+            { id: 113, name: "Tiny Tina's Wonderlands", cat: "Shooter", old: 800, price: 200, img: "1286680" },
+            { id: 114, name: "Far Cry 6", cat: "Shooter", old: 900, price: 220, img: "2369390" },
+            { id: 115, name: "Far Cry 5", cat: "Shooter", old: 600, price: 120, img: "552520" },
+            { id: 116, name: "Watch Dogs: Legion", cat: "Acción", old: 800, price: 150, img: "2239550" },
+            { id: 117, name: "Assassin's Creed Valhalla", cat: "RPG", old: 900, price: 200, img: "2208920" },
+            { id: 118, name: "Assassin's Creed Odyssey", cat: "RPG", old: 700, price: 150, img: "812140" },
+            { id: 119, name: "Mount & Blade II", cat: "Estrategia", old: 800, price: 220, img: "261550" },
+            { id: 120, name: "Crusader Kings III", cat: "Estrategia", old: 800, price: 200, img: "1158310" },
+            { id: 121, name: "Stellaris", cat: "Estrategia", old: 600, price: 150, img: "281990" },
+            { id: 122, name: "Hearts of Iron IV", cat: "Estrategia", old: 600, price: 150, img: "394360" },
+            { id: 123, name: "Total War: WARHAMMER III", cat: "Estrategia", old: 1000, price: 250, img: "1145980" },
+            { id: 124, name: "Age of Mythology", cat: "Estrategia", old: 500, price: 150, img: "1934680" },
+            { id: 125, name: "Wartales", cat: "RPG", old: 500, price: 150, img: "1527950" },
+            { id: 126, name: "Kenshi", cat: "RPG", old: 400, price: 120, img: "233860" },
+            { id: 127, name: "Dave the Diver", cat: "Aventura", old: 350, price: 100, img: "1868140" },
+            { id: 128, name: "Dredge", cat: "Aventura", old: 400, price: 110, img: "1562430" },
+            { id: 129, name: "Hollow Knight: Silksong", cat: "Aventura", old: 500, price: 150, img: "1030300" },
+            { id: 130, name: "Celeste", cat: "Aventura", old: 300, price: 80, img: "504230" },
+            { id: 131, name: "Dead Cells", cat: "Acción", old: 400, price: 100, img: "588650" },
+            { id: 132, name: "Vampire Survivors", cat: "Acción", old: 100, price: 30, img: "1794680" },
+            
+            // --- ACTUALIZACION MASIVA: +200 JUEGOS NUEVOS ---
+            { id: 133, name: "Batman: Arkham Knight", cat: "Acción", old: 400, price: 100, img: "208650" },
+            { id: 134, name: "Batman: Arkham City", cat: "Acción", old: 300, price: 80, img: "200260" },
+            { id: 135, name: "Batman: Arkham Asylum", cat: "Acción", old: 300, price: 80, img: "35140" },
+            { id: 136, name: "Tomb Raider (2013)", cat: "Aventura", old: 300, price: 80, img: "203160" },
+            { id: 137, name: "Rise of the Tomb Raider", cat: "Aventura", old: 500, price: 120, img: "391220" },
+            { id: 138, name: "Shadow of the Tomb Raider", cat: "Aventura", old: 700, price: 180, img: "692850" },
+            { id: 139, name: "Bioshock 1 Remastered", cat: "Shooter", old: 300, price: 80, img: "409710" },
+            { id: 140, name: "Bioshock 2 Remastered", cat: "Shooter", old: 300, price: 80, img: "409720" },
+            { id: 141, name: "Borderlands 2", cat: "Shooter", old: 300, price: 80, img: "49520" },
+            { id: 142, name: "Borderlands: The Pre-Sequel", cat: "Shooter", old: 400, price: 100, img: "261640" },
+            { id: 143, name: "Mass Effect Legendary Edition", cat: "RPG", old: 900, price: 250, img: "1328670" },
+            { id: 144, name: "Dragon Age: Inquisition", cat: "RPG", old: 600, price: 150, img: "1222650" },
+            { id: 145, name: "The Witcher 2", cat: "RPG", old: 200, price: 50, img: "20920" },
+            { id: 146, name: "Fallout 3: GOTY", cat: "RPG", old: 200, price: 50, img: "22370" },
+            { id: 147, name: "Fallout 76", cat: "RPG", old: 600, price: 150, img: "1151340" },
+            { id: 148, name: "The Elder Scrolls Online", cat: "RPG", old: 400, price: 120, img: "306130" },
+            { id: 149, name: "DOOM (2016)", cat: "Shooter", old: 400, price: 100, img: "379720" },
+            { id: 150, name: "Wolfenstein: The New Order", cat: "Shooter", old: 300, price: 80, img: "201810" },
+            { id: 151, name: "Wolfenstein II", cat: "Shooter", old: 600, price: 150, img: "612880" },
+            { id: 152, name: "Dishonored", cat: "Acción", old: 300, price: 80, img: "205100" },
+            { id: 153, name: "Dishonored 2", cat: "Acción", old: 500, price: 120, img: "403640" },
+            { id: 154, name: "Prey", cat: "Acción", old: 500, price: 120, img: "480490" },
+            { id: 155, name: "The Evil Within", cat: "Terror", old: 300, price: 80, img: "268050" },
+            { id: 156, name: "The Evil Within 2", cat: "Terror", old: 500, price: 120, img: "40000" },
+            { id: 157, name: "Hitman 3 (World of Assassination)", cat: "Acción", old: 1000, price: 280, img: "1659040" },
+            { id: 158, name: "Just Cause 3", cat: "Acción", old: 300, price: 80, img: "225540" },
+            { id: 159, name: "Just Cause 4", cat: "Acción", old: 500, price: 120, img: "517710" },
+            { id: 160, name: "Mafia: Definitive Edition", cat: "Aventura", old: 600, price: 180, img: "1030840" },
+            { id: 161, name: "Mafia II: Definitive Edition", cat: "Aventura", old: 500, price: 120, img: "1030830" },
+            { id: 162, name: "Yakuza 0", cat: "RPG", old: 400, price: 100, img: "638970" },
+            { id: 163, name: "Yakuza: Like a Dragon", cat: "RPG", old: 800, price: 200, img: "1235140" },
+            { id: 164, name: "Persona 4 Golden", cat: "RPG", old: 400, price: 120, img: "1113000" },
+            { id: 165, name: "Persona 3 Reload", cat: "RPG", old: 1200, price: 350, img: "2161700" },
+            { id: 166, name: "Final Fantasy VII Remake", cat: "RPG", old: 1100, price: 300, img: "1462040" },
+            { id: 167, name: "Final Fantasy XV", cat: "RPG", old: 600, price: 150, img: "637650" },
+            { id: 168, name: "Resident Evil 7", cat: "Terror", old: 400, price: 120, img: "418370" },
+            { id: 169, name: "Resident Evil 5", cat: "Terror", old: 300, price: 80, img: "21690" },
+            { id: 170, name: "Devil May Cry 4", cat: "Acción", old: 400, price: 100, img: "329050" },
+            { id: 171, name: "Monster Hunter Rise", cat: "RPG", old: 800, price: 220, img: "1446780" },
+            { id: 172, name: "Street Fighter V", cat: "Acción", old: 400, price: 100, img: "310950" },
+            { id: 173, name: "Tekken 7", cat: "Acción", old: 500, price: 120, img: "389730" },
+            { id: 174, name: "Mortal Kombat 11", cat: "Acción", old: 800, price: 180, img: "976730" },
+            { id: 175, name: "Mortal Kombat X", cat: "Acción", old: 400, price: 100, img: "307780" },
+            { id: 176, name: "Injustice 2", cat: "Acción", old: 500, price: 120, img: "627270" },
+            { id: 177, name: "Dragon Ball FighterZ", cat: "Acción", old: 800, price: 180, img: "678950" },
+            { id: 178, name: "Dragon Ball Z: Kakarot", cat: "RPG", old: 900, price: 200, img: "851850" },
+            { id: 179, name: "Naruto Storm 4", cat: "Acción", old: 500, price: 120, img: "349040" },
+            { id: 180, name: "NieR:Automata", cat: "RPG", old: 600, price: 150, img: "524220" },
+            { id: 181, name: "Dark Souls Remastered", cat: "RPG", old: 600, price: 150, img: "570940" },
+            { id: 182, name: "Dark Souls II", cat: "RPG", old: 500, price: 120, img: "335300" },
+            { id: 183, name: "Nioh: Complete Edition", cat: "RPG", old: 600, price: 150, img: "485510" },
+            { id: 184, name: "Nioh 2", cat: "RPG", old: 800, price: 200, img: "1325200" },
+            { id: 185, name: "Remnant: From the Ashes", cat: "Shooter", old: 500, price: 120, img: "617290" },
+            { id: 186, name: "Remnant II", cat: "Shooter", old: 900, price: 250, img: "1282100" },
+            { id: 187, name: "Dead Space 2", cat: "Terror", old: 300, price: 80, img: "47780" },
+            { id: 188, name: "Dead Space 3", cat: "Terror", old: 400, price: 100, img: "1238060" },
+            { id: 189, name: "GTA IV: Complete Edition", cat: "Aventura", old: 400, price: 100, img: "12210" },
+            { id: 190, name: "GTA San Andreas", cat: "Aventura", old: 300, price: 80, img: "fallback" },
+            { id: 191, name: "L.A. Noire", cat: "Aventura", old: 400, price: 100, img: "110800" },
+            { id: 192, name: "Bully: Scholarship Edition", cat: "Aventura", old: 250, price: 60, img: "12200" },
+            { id: 193, name: "Sleeping Dogs: Definitive", cat: "Acción", old: 300, price: 80, img: "307690" },
+            { id: 194, name: "Saints Row: The Third", cat: "Acción", old: 300, price: 80, img: "55230" },
+            { id: 195, name: "Saints Row IV", cat: "Acción", old: 300, price: 80, img: "206420" },
+            { id: 196, name: "Planet Coaster", cat: "Estrategia", old: 600, price: 150, img: "493340" },
+            { id: 197, name: "Planet Zoo", cat: "Estrategia", old: 700, price: 180, img: "703080" },
+            { id: 198, name: "Jurassic World Evolution 2", cat: "Estrategia", old: 900, price: 220, img: "1244460" },
+            { id: 199, name: "The Sims 4", cat: "Estrategia", old: 500, price: 120, img: "1222670" },
+            { id: 200, name: "Civilization V", cat: "Estrategia", old: 400, price: 100, img: "8930" },
+            { id: 201, name: "XCOM 2", cat: "Estrategia", old: 600, price: 150, img: "268500" },
+            { id: 202, name: "Gears 5", cat: "Shooter", old: 800, price: 200, img: "1097840" },
+            { id: 203, name: "Halo: The Master Chief Collection", cat: "Shooter", old: 600, price: 180, img: "976730" },
+            { id: 204, name: "Age of Empires II: Def. Ed.", cat: "Estrategia", old: 400, price: 120, img: "813780" },
+            { id: 205, name: "Diablo II: Resurrected", cat: "RPG", old: 600, price: 180, img: "fallback" },
+            { id: 206, name: "Overwatch 2", cat: "Shooter", old: 0, price: 50, img: "2357570" },
+            { id: 207, name: "Undertale", cat: "RPG", old: 200, price: 60, img: "391540" },
+            { id: 208, name: "Ori and the Blind Forest", cat: "Aventura", old: 300, price: 90, img: "261570" },
+            { id: 209, name: "Ori and the Will of the Wisps", cat: "Aventura", old: 500, price: 150, img: "1057090" },
+            { id: 210, name: "Spelunky 2", cat: "Aventura", old: 300, price: 90, img: "418530" },
+            { id: 211, name: "The Binding of Isaac: Rebirth", cat: "Acción", old: 300, price: 90, img: "250900" },
+            { id: 212, name: "Little Nightmares", cat: "Terror", old: 300, price: 90, img: "424840" },
+            { id: 213, name: "Little Nightmares II", cat: "Terror", old: 500, price: 150, img: "860510" },
+            { id: 214, name: "Slime Rancher", cat: "Aventura", old: 300, price: 90, img: "433340" },
+            { id: 215, name: "Slime Rancher 2", cat: "Aventura", old: 500, price: 150, img: "1657630" },
+            { id: 216, name: "Portal 2", cat: "Aventura", old: 200, price: 50, img: "620" },
+            { id: 217, name: "Half-Life 2", cat: "Shooter", old: 200, price: 50, img: "220" },
+            { id: 218, name: "Garry's Mod", cat: "Aventura", old: 200, price: 80, img: "4000" },
+            { id: 219, name: "Team Fortress 2 Premium", cat: "Shooter", old: 100, price: 40, img: "440" },
+            { id: 220, name: "Green Hell", cat: "Aventura", old: 400, price: 120, img: "815370" },
+            { id: 221, name: "The Long Dark", cat: "Aventura", old: 500, price: 150, img: "305620" },
+            { id: 222, name: "Need for Speed Heat", cat: "Deportes", old: 800, price: 180, img: "1222680" },
+            { id: 223, name: "Dirt Rally 2.0", cat: "Deportes", old: 500, price: 120, img: "690790" },
+            { id: 224, name: "Assetto Corsa Competizione", cat: "Deportes", old: 600, price: 180, img: "805550" },
+            { id: 225, name: "The Crew Motorfest", cat: "Deportes", old: 1000, price: 300, img: "fallback" },
+            { id: 226, name: "Riders Republic", cat: "Deportes", old: 800, price: 220, img: "2221920" },
+            { id: 227, name: "Sekiro: Shadows Die Twice", cat: "Acción", old: 800, price: 250, img: "814380" },
+            { id: 228, name: "Arma 3", cat: "Shooter", old: 600, price: 150, img: "107410" },
+            { id: 229, name: "Payday 2", cat: "Shooter", old: 200, price: 50, img: "218620" },
+            { id: 230, name: "Rocket League", cat: "Deportes", old: 400, price: 120, img: "252950" },
+            { id: 231, name: "Apex Legends Coins", cat: "Shooter", old: 500, price: 200, img: "1172470" },
+            { id: 232, name: "Destiny 2 Silver", cat: "Shooter", old: 500, price: 200, img: "1085660" },
+            { id: 233, name: "PUBG: BATTLEGROUNDS", cat: "Shooter", old: 600, price: 150, img: "578080" },
+            { id: 234, name: "Fall Guys", cat: "Acción", old: 400, price: 120, img: "1097150" },
+            { id: 235, name: "Geometry Dash", cat: "Acción", old: 100, price: 30, img: "322220" },
+            { id: 236, name: "Brawlhalla Coins", cat: "Acción", old: 300, price: 120, img: "315460" },
+            { id: 237, name: "Warframe Platinum", cat: "Acción", old: 500, price: 200, img: "230410" },
+            { id: 238, name: "Path of Exile Points", cat: "RPG", old: 500, price: 200, img: "238960" },
+            { id: 239, name: "Dead Island Definitive", cat: "Terror", old: 300, price: 80, img: "383150" },
+            { id: 240, name: "Dead Island 2", cat: "Terror", old: 900, price: 280, img: "934700" },
+            { id: 241, name: "Alan Wake Remastered", cat: "Terror", old: 500, price: 150, img: "fallback" },
+            { id: 242, name: "SOMA", cat: "Terror", old: 400, price: 100, img: "282140" },
+            { id: 243, name: "Amnesia: The Dark Descent", cat: "Terror", old: 200, price: 50, img: "57300" },
+            { id: 244, name: "Amnesia: Rebirth", cat: "Terror", old: 400, price: 120, img: "999220" },
+            { id: 245, name: "Five Nights at Freddy's", cat: "Terror", old: 100, price: 30, img: "312830" },
+            { id: 246, name: "FNAF: Security Breach", cat: "Terror", old: 600, price: 180, img: "747660" },
+            { id: 247, name: "Bendy and the Ink Machine", cat: "Terror", old: 300, price: 80, img: "622650" },
+            { id: 248, name: "Poppy Playtime", cat: "Terror", old: 200, price: 60, img: "1721470" },
+            { id: 249, name: "Escape the Backrooms", cat: "Terror", old: 200, price: 60, img: "1943950" },
+            { id: 250, name: "Grounded", cat: "Aventura", old: 600, price: 180, img: "962130" },
+            { id: 251, name: "Sea of Stars", cat: "RPG", old: 500, price: 180, img: "1244090" },
+            { id: 252, name: "Chained Echoes", cat: "RPG", old: 400, price: 150, img: "1229240" },
+            { id: 253, name: "Octopath Traveler", cat: "RPG", old: 800, price: 200, img: "921570" },
+            { id: 254, name: "Octopath Traveler II", cat: "RPG", old: 1000, price: 280, img: "1971650" },
+            { id: 255, name: "Dragon Quest XI S", cat: "RPG", old: 800, price: 220, img: "1295510" },
+            { id: 256, name: "Tales of Arise", cat: "RPG", old: 900, price: 250, img: "740130" },
+            { id: 257, name: "Scarlet Nexus", cat: "RPG", old: 800, price: 200, img: "1049890" },
+            { id: 258, name: "Code Vein", cat: "RPG", old: 700, price: 180, img: "678960" },
+            { id: 259, name: "God Eater 3", cat: "RPG", old: 600, price: 150, img: "899440" },
+            { id: 260, name: "Genshin Impact Crystals", cat: "RPG", old: 500, price: 200, img: "fallback" },
+            { id: 261, name: "Honkai: Star Rail Jade", cat: "RPG", old: 500, price: 200, img: "fallback" },
+            { id: 262, name: "SnowRunner", cat: "Aventura", old: 500, price: 150, img: "1465360" },
+            { id: 263, name: "MudRunner", cat: "Aventura", old: 300, price: 80, img: "675010" },
+            { id: 264, name: "Farming Simulator 22", cat: "Estrategia", old: 600, price: 180, img: "1248130" },
+            { id: 265, name: "House Flipper", cat: "Estrategia", old: 300, price: 90, img: "613100" },
+            { id: 266, name: "House Flipper 2", cat: "Estrategia", old: 600, price: 180, img: "1190970" },
+            { id: 267, name: "PowerWash Simulator", cat: "Estrategia", old: 400, price: 120, img: "1290000" },
+            { id: 268, name: "PC Building Simulator", cat: "Estrategia", old: 300, price: 80, img: "621060" },
+            { id: 269, name: "Thief Simulator", cat: "Estrategia", old: 300, price: 80, img: "704850" },
+            { id: 270, name: "Cooking Simulator", cat: "Estrategia", old: 300, price: 80, img: "641320" },
+            { id: 271, name: "Car Mechanic Simulator", cat: "Estrategia", old: 400, price: 100, img: "1190000" },
+            { id: 272, name: "BeamNG.drive", cat: "Deportes", old: 400, price: 120, img: "284160" },
+            { id: 273, name: "Wreckfest", cat: "Deportes", old: 500, price: 150, img: "228380" },
+            { id: 274, name: "Mortal Shell", cat: "RPG", old: 400, price: 120, img: "1110910" },
+            { id: 275, name: "Lords of the Fallen (2023)", cat: "RPG", old: 1000, price: 280, img: "1501750" },
+            { id: 276, name: "Wo Long: Fallen Dynasty", cat: "RPG", old: 1000, price: 280, img: "1448440" },
+            { id: 277, name: "Sifu", cat: "Acción", old: 600, price: 180, img: "2138710" },
+            { id: 278, name: "Hogwarts Legacy: Dark Arts", cat: "Aventura", old: 400, price: 150, img: "fallback" },
+            { id: 279, name: "South Park: Stick of Truth", cat: "RPG", old: 400, price: 100, img: "213670" },
+            { id: 280, name: "South Park: Fractured But Whole", cat: "RPG", old: 600, price: 150, img: "485980" },
+            { id: 281, name: "High On Life", cat: "Shooter", old: 800, price: 220, img: "1583230" },
+            { id: 282, name: "Atomic Heart", cat: "Shooter", old: 900, price: 250, img: "668580" },
+            { id: 283, name: "Scorn", cat: "Terror", old: 600, price: 180, img: "698670" },
+            { id: 284, name: "The Medium", cat: "Terror", old: 700, price: 200, img: "1293160" },
+            { id: 285, name: "A Plague Tale: Innocence", cat: "Aventura", old: 600, price: 150, img: "752590" },
+            { id: 286, name: "A Plague Tale: Requiem", cat: "Aventura", old: 900, price: 250, img: "1182900" },
+            { id: 287, name: "Hellblade: Senua's Sacrifice", cat: "Aventura", old: 400, price: 100, img: "414340" },
+            { id: 288, name: "Senua's Saga: Hellblade II", cat: "Aventura", old: 1000, price: 300, img: "2461850" },
+            { id: 289, name: "Quantum Break", cat: "Acción", old: 500, price: 120, img: "474960" },
+            { id: 290, name: "Sunset Overdrive", cat: "Acción", old: 300, price: 80, img: "847370" },
+            { id: 291, name: "Ryse: Son of Rome", cat: "Acción", old: 200, price: 50, img: "302510" },
+            { id: 292, name: "Crysis Remastered", cat: "Shooter", old: 400, price: 120, img: "1715130" },
+            { id: 293, name: "Sniper Elite 4", cat: "Shooter", old: 600, price: 150, img: "312660" },
+            { id: 294, name: "Sniper Elite 5", cat: "Shooter", old: 800, price: 220, img: "1029690" },
+            { id: 295, name: "Sniper Ghost Warrior Contracts 2", cat: "Shooter", old: 600, price: 150, img: "1338770" },
+            { id: 296, name: "Ghostrunner", cat: "Acción", old: 500, price: 150, img: "1139900" },
+            { id: 297, name: "Ghostrunner 2", cat: "Acción", old: 800, price: 220, img: "2144740" },
+            { id: 298, name: "Cyberpunk 2077: Phantom Liberty", cat: "RPG", old: 600, price: 200, img: "2138330" },
+            { id: 299, name: "Elden Ring: Shadow of the Erdtree", cat: "RPG", old: 800, price: 280, img: "2778580" },
+            { id: 300, name: "Witcher 3: Blood and Wine", cat: "RPG", old: 300, price: 100, img: "378648" },
+            { id: 301, name: "Outer Wilds", cat: "Aventura", old: 400, price: 120, img: "753640" },
+            { id: 302, name: "Disco Elysium", cat: "RPG", old: 500, price: 150, img: "632470" },
+            { id: 303, name: "Divinity: Original Sin 2", cat: "RPG", old: 600, price: 180, img: "435150" },
+            { id: 304, name: "Pillars of Eternity", cat: "RPG", old: 400, price: 100, img: "291650" },
+            { id: 305, name: "Pathfinder: Wrath of the Righteous", cat: "RPG", old: 700, price: 200, img: "1184370" },
+            { id: 306, name: "Frostpunk", cat: "Estrategia", old: 400, price: 120, img: "323190" },
+            { id: 307, name: "Frostpunk 2", cat: "Estrategia", old: 800, price: 250, img: "1601580" },
+            { id: 308, name: "Tropico 6", cat: "Estrategia", old: 600, price: 150, img: "492720" },
+            { id: 309, name: "Anno 1800", cat: "Estrategia", old: 800, price: 220, img: "916440" },
+            { id: 310, name: "Age of Wonders 4", cat: "Estrategia", old: 800, price: 220, img: "1669000" },
+            { id: 311, name: "Kerbal Space Program", cat: "Estrategia", old: 400, price: 100, img: "220200" },
+            { id: 312, name: "Kerbal Space Program 2", cat: "Estrategia", old: 800, price: 220, img: "954850" },
+            { id: 313, name: "Prison Architect", cat: "Estrategia", old: 300, price: 80, img: "233450" },
+            { id: 314, name: "Two Point Hospital", cat: "Estrategia", old: 400, price: 120, img: "535930" },
+            { id: 315, name: "Two Point Campus", cat: "Estrategia", old: 500, price: 150, img: "1649080" },
+            { id: 316, name: "Brotato", cat: "Acción", old: 100, price: 30, img: "1942280" },
+            { id: 317, name: "Deep Rock Galactic", cat: "Acción", old: 400, price: 120, img: "548430" },
+            { id: 318, name: "Risk of Rain 2", cat: "Acción", old: 400, price: 120, img: "632360" },
+            { id: 319, name: "Gunfire Reborn", cat: "Shooter", old: 300, price: 90, img: "1217060" },
+            { id: 320, name: "Ultrakill", cat: "Shooter", old: 400, price: 120, img: "1229490" },
+            { id: 321, name: "Enter the Gungeon", cat: "Acción", old: 200, price: 60, img: "311690" },
+            { id: 322, name: "DUSK", cat: "Shooter", old: 300, price: 90, img: "519860" },
+            { id: 323, name: "AMID EVIL", cat: "Shooter", old: 300, price: 90, img: "673130" },
+            { id: 324, name: "Prodeus", cat: "Shooter", old: 400, price: 120, img: "964800" },
+            { id: 325, name: "Turbo Overkill", cat: "Shooter", old: 400, price: 120, img: "1705590" },
+            { id: 326, name: "V Rising", cat: "Aventura", old: 400, price: 120, img: "1604030" },
+            { id: 327, name: "SCUM", cat: "Aventura", old: 500, price: 150, img: "513710" },
+            { id: 328, name: "Hunt: Showdown", cat: "Shooter", old: 600, price: 180, img: "594650" },
+            { id: 329, name: "Tarkov: Edge of Darkness", cat: "Shooter", old: 1500, price: 500, img: "fallback" },
+            { id: 330, name: "Arena Breakout: Infinite", cat: "Shooter", old: 400, price: 150, img: "fallback" }
         ];
 
         let cart = [];
         let wallet = 0.00;
         let isLoggedIn = false;
+        let userEmail = ""; 
         const PHONE = "12296558023";
         let currentFilter = 'all';
 
@@ -449,7 +709,7 @@
             grid.innerHTML = list.map(g => `
                 <div class="card">
                     <div class="card-img-container">
-                        <img src="${getImgUrl(g)}" alt="${g.name}" class="card-img" onerror="this.src='https://via.placeholder.com/200x300?text=${encodeURIComponent(g.name)}'">
+                        <img src="${getImgUrl(g)}" alt="${g.name}" class="card-img" onerror="this.src='https://placehold.co/400x600/1e1e1e/00ff88?text=${encodeURIComponent(g.name)}'">
                         <div class="discount-tag">-${Math.round((1 - g.price/g.old)*100)}%</div>
                     </div>
                     <div class="card-body">
@@ -497,13 +757,9 @@
         }
 
         function add(id) {
-            // Buscamos el juego y le agregamos la plataforma seleccionada
             const gameData = gamesDB.find(g => g.id === id);
             const selectedPlat = document.getElementById(`plat-${id}`).value;
-            
-            // Hacemos una copia del objeto del juego para no alterar la base de datos
             const gameToAdd = { ...gameData, platform: selectedPlat };
-            
             cart.push(gameToAdd);
             renderCart();
         }
@@ -545,7 +801,6 @@
             totalEl.innerText = `$${total.toFixed(2)}`;
         }
 
-        // --- LÓGICA DE LOGIN ---
         function openAuthModal() { document.getElementById('auth-modal').style.display = 'flex'; }
         function closeAuthModal() { document.getElementById('auth-modal').style.display = 'none'; }
         
@@ -555,16 +810,17 @@
             
             if(email && pass) {
                 isLoggedIn = true;
+                userEmail = email; 
                 closeAuthModal();
                 document.getElementById('user-display').style.display = 'block';
                 alert("¡Bienvenido! Sesión iniciada correctamente.");
-                pay(); // Reintenta el pago automáticamente
+                updateLink(); 
+                pay(); 
             } else {
                 alert("Por favor, ingresa un correo y contraseña válidos.");
             }
         }
 
-        // --- LÓGICA DE COMPRA ---
         function pay() {
             const total = cart.reduce((acc, item) => acc + item.price, 0);
             if(total === 0) return alert("Selecciona juegos.");
@@ -578,15 +834,14 @@
                 wallet -= total;
                 document.getElementById('wallet').innerText = wallet.toFixed(2);
                 
-                let msg = "Hola, nueva compra de JUEGOS:\n";
-                // AHORA EL MENSAJE INCLUYE LA PLATAFORMA
+                let msg = `Hola, nueva compra de JUEGOS.\nCorreo de la cuenta: ${userEmail}\n\n`;
                 cart.forEach(i => msg += `- ${i.name} [${i.platform}] ($${i.price})\n`);
-                msg += `Total: $${total} MXN`;
+                msg += `\nTotal cobrado del saldo: $${total} MXN`;
                 
                 window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
                 cart = []; renderCart();
             } else {
-                alert("Saldo insuficiente. Por favor, recarga tu billetera.");
+                alert("Saldo insuficiente. Por favor, realiza una recarga.");
                 openModal();
             }
         }
@@ -599,7 +854,8 @@
         }
 
         function updateLink() {
-            const msg = "Hola, solicito recarga de saldo. Adjunto comprobante.";
+            let correoTexto = userEmail ? userEmail : "[ESCRIBE AQUÍ TU CORREO REGISTRADO]";
+            const msg = `Hola, solicito recarga de saldo.\nMi correo registrado es: ${correoTexto}\n\n*Adjunto capture de mi pago.*`;
             document.getElementById('wa-link').href = `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
         }
 
